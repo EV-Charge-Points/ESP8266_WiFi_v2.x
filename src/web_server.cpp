@@ -38,6 +38,7 @@ const char _CONTENT_TYPE_JSON[] PROGMEM = "application/json";
 const char _CONTENT_TYPE_JS[] PROGMEM = "application/javascript";
 const char _CONTENT_TYPE_JPEG[] PROGMEM = "image/jpeg";
 const char _CONTENT_TYPE_PNG[] PROGMEM = "image/png";
+const char _CONTENT_TYPE_SVG[] PROGMEM = "image/svg+xml";
 
 static const char _DUMMY_PASSWORD[] PROGMEM = "_DUMMY_PASSWORD";
 #define DUMMY_PASSWORD FPSTR(_DUMMY_PASSWORD)
