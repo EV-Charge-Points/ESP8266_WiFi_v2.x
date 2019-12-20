@@ -199,7 +199,7 @@ config_load_settings() {
   EEPROM_read_string(EEPROM_EMON_SERVER_START, EEPROM_EMON_SERVER_SIZE,
                      emoncms_server, "data.openevse.com/emoncms");
   EEPROM_read_string(EEPROM_EMON_NODE_START, EEPROM_EMON_NODE_SIZE,
-                     emoncms_node, "openevse");
+                     emoncms_node, "evcp");
   EEPROM_read_string(EEPROM_EMON_FINGERPRINT_START, EEPROM_EMON_FINGERPRINT_SIZE,
                      emoncms_fingerprint,"");
 
@@ -207,7 +207,7 @@ config_load_settings() {
   EEPROM_read_string(EEPROM_MQTT_SERVER_START, EEPROM_MQTT_SERVER_SIZE,
                      mqtt_server, "emonpi");
   EEPROM_read_string(EEPROM_MQTT_TOPIC_START, EEPROM_MQTT_TOPIC_SIZE,
-                     mqtt_topic, "openevse");
+                     mqtt_topic, "evcp");
   EEPROM_read_string(EEPROM_MQTT_USER_START, EEPROM_MQTT_USER_SIZE,
                      mqtt_user, "emonpi");
   EEPROM_read_string(EEPROM_MQTT_PASS_START, EEPROM_MQTT_PASS_SIZE,
@@ -225,7 +225,7 @@ config_load_settings() {
 
   // Web server credentials
   EEPROM_read_string(EEPROM_HOSTNAME_START, EEPROM_HOSTNAME_SIZE,
-                     esp_hostname, "openevse");
+                     esp_hostname, "evcp");
 
   // Ohm Connect Settings
   EEPROM_read_string(EEPROM_OHM_KEY_START, EEPROM_OHM_KEY_SIZE, ohm);

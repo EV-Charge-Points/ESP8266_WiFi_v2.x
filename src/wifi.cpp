@@ -11,8 +11,8 @@ DNSServer dnsServer;                  // Create class DNS server, captive portal
 const byte DNS_PORT = 53;
 
 // Access Point SSID, password & IP address. SSID will be softAP_ssid + chipID to make SSID unique
-const char *softAP_ssid = "OpenEVSE";
-const char *softAP_password = "openevse";
+const char *softAP_ssid = "EVCP";
+const char *softAP_password = "evcpevcp";
 IPAddress apIP(192, 168, 4, 1);
 IPAddress netMsk(255, 255, 255, 0);
 int apClients = 0;
@@ -100,8 +100,14 @@ startAP() {
   ipaddress = tmpStr;
   DEBUG.print("AP IP Address: ");
   DEBUG.println(tmpStr);
-  lcd_display(F("SSID: OpenEVSE"), 0, 0, 0, LCD_CLEAR_LINE);
-  lcd_display(F("Pass: openevse"), 0, 1, 15 * 1000, LCD_CLEAR_LINE);
+
+  String ssid_text = F("SSID: ");
+  ssid_text += softAP_ssid_ID;
+  lcd_display(ssid_text.c_str(), 0, 0, 0, LCD_CLEAR_LINE);
+
+  String ssid_pass = F("Pass: ");
+  ssid_pass += softAP_password;
+  lcd_display(ssid_pass.c_str(), 0, 1, 15 * 1000, LCD_CLEAR_LINE);
 
   apClients = 0;
 }
@@ -239,7 +245,7 @@ wifi_setup() {
 }
 
 void
-wifi_loop() 
+wifi_loop()
 {
   Profile_Start(wifi_loop);
 
@@ -303,7 +309,7 @@ wifi_loop()
     delay(50);
     ESP.reset();
   }
-  else if(false == apMessage && LOW == wifiButtonState && millis() > wifiButtonTimeOut + WIFI_BUTTON_AP_TIMEOUT) 
+  else if(false == apMessage && LOW == wifiButtonState && millis() > wifiButtonTimeOut + WIFI_BUTTON_AP_TIMEOUT)
   {
     lcd_display(F("Access Point"), 0, 0, 0, LCD_CLEAR_LINE);
     lcd_display(F(""), 0, 1, 10 * 1000, LCD_CLEAR_LINE);

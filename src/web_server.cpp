@@ -682,7 +682,7 @@ handleRestart(AsyncWebServerRequest *request) {
 // url: //emoncms/describe
 // -------------------------------------------------------------------
 void handleDescribe(AsyncWebServerRequest *request) {
-  AsyncWebServerResponse *response = request->beginResponse(200, CONTENT_TYPE_TEXT, "openevse");
+  AsyncWebServerResponse *response = request->beginResponse(200, CONTENT_TYPE_TEXT, "evcp");
   response->addHeader("Access-Control-Allow-Origin", "*");
   request->send(response);
 }
