@@ -1,4 +1,5 @@
 #include "web_server.assets.js.h"
+#include "web_server.bars.svg.h"
 #include "web_server.emoncms.jpg.h"
 #include "web_server.favicon-16x16.png.h"
 #include "web_server.favicon-32x32.png.h"
@@ -17,6 +18,7 @@
 #include "web_server.wifi_signal_5.svg.h"
 StaticFile staticFiles[] = {
   { "/assets.js", CONTENT_ASSETS_JS, sizeof(CONTENT_ASSETS_JS) - 1, _CONTENT_TYPE_JS },
+  { "/bars.svg", CONTENT_BARS_SVG, sizeof(CONTENT_BARS_SVG) - 1, _CONTENT_TYPE_SVG },
   { "/emoncms.jpg", CONTENT_EMONCMS_JPG, sizeof(CONTENT_EMONCMS_JPG) - 1, _CONTENT_TYPE_JPEG },
   { "/favicon-16x16.png", CONTENT_FAVICON_16X16_PNG, sizeof(CONTENT_FAVICON_16X16_PNG) - 1, _CONTENT_TYPE_PNG },
   { "/favicon-32x32.png", CONTENT_FAVICON_32X32_PNG, sizeof(CONTENT_FAVICON_32X32_PNG) - 1, _CONTENT_TYPE_PNG },
