@@ -433,6 +433,27 @@ handleSaveOhmkey(AsyncWebServerRequest *request) {
 }
 
 // -------------------------------------------------------------------
+// Save the Ohm keyto EEPROM
+// url: /handleSaveUnitCost
+// -------------------------------------------------------------------
+void
+handleSaveUnitCost(AsyncWebServerRequest *request) {
+  AsyncResponseStream *response;
+  if(false == requestPreProcess(request, response, CONTENT_TYPE_TEXT)) {
+    return;
+  }
+
+  String format = request->arg("format");
+  String cost = request->arg("cost");
+
+  config_save_unit_cost(format, (uint32_t)(cost.toFloat() * 1000));
+
+  response->setCode(200);
+  response->print("saved");
+  request->send(response);
+}
+
+// -------------------------------------------------------------------
 // Returns status json
 // url: /status
 // -------------------------------------------------------------------
@@ -589,7 +610,9 @@ handleConfig(AsyncWebServerRequest *request) {
   }
   s += "\",";
   s += "\"hostname\":\"" + esp_hostname + "\",";
-  s += "\"ohm_enabled\":" + String(config_ohm_enabled() ? "true" : "false");
+  s += "\"ohm_enabled\":" + String(config_ohm_enabled() ? "true" : "false")+",";
+  s += "\"unit_cost_value\":"+String((double)unit_cost / 1000.0)+",";
+  s += "\"unit_cost_format\":\"" + unit_cost_format + "\"";
   s += "}";
 
   response->setCode(200);
@@ -959,6 +982,7 @@ web_server_setup() {
   server.on("/saveadmin", handleSaveAdmin);
   server.on("/saveadvanced", handleSaveAdvanced);
   server.on("/saveohmkey", handleSaveOhmkey);
+  server.on("/saveunitcost", handleSaveUnitCost);
   server.on("/reset", handleRst);
   server.on("/restart", handleRestart);
   server.on("/rapi", handleRapi);

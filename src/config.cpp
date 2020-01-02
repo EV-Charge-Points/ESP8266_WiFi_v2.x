@@ -32,8 +32,12 @@ String mqtt_grid_ie = "";
 // Ohm Connect Settings
 String ohm = "";
 
+// 8bits unit cost symbol, 16 bits kWh unit cost in 1/1000 th of unit
+uint32_t unit_cost = 0;
+String unit_cost_format = "";
+
 // Flags
-uint32_t flags;
+uint32_t flags = 0;
 
 #define EEPROM_ESID_SIZE              32
 #define EEPROM_EPASS_SIZE             64
@@ -52,6 +56,8 @@ uint32_t flags;
 #define EEPROM_OHM_KEY_SIZE           10
 #define EEPROM_FLAGS_SIZE             4
 #define EEPROM_HOSTNAME_SIZE          32
+#define EEPROM_UNIT_COST_SIZE         4
+#define EEPROM_UNIT_COST_FORMAT_SIZE  16
 #define EEPROM_SIZE                   1024
 
 #define EEPROM_ESID_START             0
@@ -88,7 +94,11 @@ uint32_t flags;
 #define EEPROM_EMON_API_KEY_END       (EEPROM_EMON_API_KEY_START + EEPROM_EMON_API_KEY_SIZE)
 #define EEPROM_HOSTNAME_START         EEPROM_EMON_API_KEY_END
 #define EEPROM_HOSTNAME_END           (EEPROM_HOSTNAME_START + EEPROM_HOSTNAME_SIZE)
-#define EEPROM_CONFIG_END             EEPROM_HOSTNAME_END
+#define EEPROM_UNIT_COST_START        EEPROM_HOSTNAME_END
+#define EEPROM_UNIT_COST_END          (EEPROM_UNIT_COST_START + EEPROM_UNIT_COST_SIZE)
+#define EEPROM_UNIT_COST_FORMAT_START EEPROM_UNIT_COST_END
+#define EEPROM_UNIT_COST_FORMAT_END   (EEPROM_UNIT_COST_FORMAT_START + EEPROM_UNIT_COST_FORMAT_SIZE)
+#define EEPROM_CONFIG_END             EEPROM_UNIT_COST_FORMAT_END
 
 #if EEPROM_CONFIG_END > EEPROM_SIZE
 #error EEPROM_SIZE too small
@@ -229,6 +239,10 @@ config_load_settings() {
 
   // Ohm Connect Settings
   EEPROM_read_string(EEPROM_OHM_KEY_START, EEPROM_OHM_KEY_SIZE, ohm);
+
+  // Unit cost
+  EEPROM_read_uint24(EEPROM_UNIT_COST_START, unit_cost, 140);
+  EEPROM_read_string(EEPROM_UNIT_COST_FORMAT_START, EEPROM_UNIT_COST_FORMAT_SIZE, unit_cost_format, "£%.2f");
 
   // Flags
   EEPROM_read_uint24(EEPROM_FLAGS_START, flags, 0);
@@ -372,6 +386,21 @@ config_save_flags(uint32_t newFlags) {
     flags = newFlags;
 
     EEPROM_write_uint24(EEPROM_FLAGS_START, flags);
+
+    EEPROM.end();
+  }
+}
+
+void config_save_unit_cost(String format, uint32_t cost) {
+  if(unit_cost != cost || unit_cost_format != format)
+  {
+    EEPROM.begin(EEPROM_SIZE);
+
+    unit_cost = cost;
+    unit_cost_format = format;
+
+    EEPROM_write_uint24(EEPROM_UNIT_COST_START, unit_cost);
+    EEPROM_write_string(EEPROM_UNIT_COST_FORMAT_START, EEPROM_UNIT_COST_FORMAT_SIZE, unit_cost_format);
 
     EEPROM.end();
   }
